@@ -1,0 +1,12 @@
+model TeacherUnavailable {
+  id            Int      @id @default(autoincrement())
+  teacherId     Int      @map("teacher_id")
+  startDatetime DateTime @map("start_datetime")
+  endDatetime   DateTime @map("end_datetime")
+  reason        String?
+
+  // Relations
+  teacher User @relation(fields: [teacherId], references: [id])
+
+  @@map("teacher_unavailables")
+}

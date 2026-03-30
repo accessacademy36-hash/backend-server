@@ -1,0 +1,23 @@
+// ─── LECTURE DOMAIN ──────────────────────────────────────────────────────────
+
+enum LectureStatus {
+  scheduled
+  completed
+  canceled
+}
+
+model Lecture {
+  id                   Int           @id @default(autoincrement())
+  teachingAssignmentId Int           @map("teaching_assignment_id")
+  startTime            DateTime      @map("start_time")
+  endTime              DateTime      @map("end_time")
+  maxStudents          Int           @default(1) @map("max_students")
+  status               LectureStatus @default(scheduled)
+  isDemo               Boolean       @default(false) @map("is_demo")
+
+  // Relations
+  teachingAssignment TeachingAssignment  @relation(fields: [teachingAssignmentId], references: [id])
+  attendances        LectureAttendance[]
+
+  @@map("lectures")
+}

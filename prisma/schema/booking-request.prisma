@@ -1,0 +1,28 @@
+// ─── BOOKING DOMAIN ──────────────────────────────────────────────────────────
+
+enum BookingStatus {
+  pending
+  approved
+  rejected
+  expired
+}
+
+model BookingRequest {
+  id                   Int           @id @default(autoincrement())
+  studentId            Int           @map("student_id")
+  teachingAssignmentId Int           @map("teaching_assignment_id")
+  subscriptionId       Int?          @map("subscription_id") // null for demo sessions
+  requestedStartTime   DateTime      @map("requested_start_time")
+  requestedEndTime     DateTime      @map("requested_end_time")
+  status               BookingStatus @default(pending)
+  createdAt            DateTime      @default(now()) @map("created_at")
+  reviewedBy           Int?          @map("reviewed_by")
+  reviewedAt           DateTime?     @map("reviewed_at")
+
+  // Relations
+  student            User               @relation(fields: [studentId], references: [id])
+  teachingAssignment TeachingAssignment @relation(fields: [teachingAssignmentId], references: [id])
+  subscription       Subscription?      @relation(fields: [subscriptionId], references: [id])
+
+  @@map("booking_requests")
+}

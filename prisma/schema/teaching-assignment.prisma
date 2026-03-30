@@ -1,0 +1,22 @@
+// ─── CORE OFFERING ───────────────────────────────────────────────────────────
+
+model TeachingAssignment {
+  id           Int @id @default(autoincrement())
+  teacherId    Int @map("teacher_id")
+  courseId     Int @map("course_id")
+  gradeId      Int @map("grade_id")
+  courseTypeId Int @map("course_type_id")
+
+  // Relations
+  teacher      User       @relation(fields: [teacherId], references: [id])
+  course       Course     @relation(fields: [courseId], references: [id])
+  grade        Grade      @relation(fields: [gradeId], references: [id])
+  courseType   CourseType @relation(fields: [courseTypeId], references: [id])
+
+  paymentRequests PaymentRequest[]
+  subscriptions   Subscription[]
+  bookingRequests BookingRequest[]
+  lectures        Lecture[]
+
+  @@map("teaching_assignments")
+}

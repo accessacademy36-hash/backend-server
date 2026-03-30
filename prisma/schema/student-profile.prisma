@@ -1,0 +1,15 @@
+// ─── STUDENT PROFILE ─────────────────────────────────────────────────────────
+
+model StudentProfile {
+  id           Int @id @default(autoincrement())
+  userId       Int @unique @map("user_id")
+  gradeId      Int @map("grade_id")
+  courseTypeId Int @map("course_type_id")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id])
+  grade      Grade      @relation(fields: [gradeId], references: [id])
+  courseType CourseType @relation(fields: [courseTypeId], references: [id])
+
+  @@map("student_profiles")
+}

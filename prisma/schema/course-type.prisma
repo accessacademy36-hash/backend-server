@@ -1,0 +1,10 @@
+model CourseType {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  // Relations
+  studentProfiles     StudentProfile[]
+  teachingAssignments TeachingAssignment[]
+
+  @@map("course_types")
+}

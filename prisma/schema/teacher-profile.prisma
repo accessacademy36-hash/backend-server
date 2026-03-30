@@ -1,0 +1,15 @@
+// ─── TEACHER PROFILE ─────────────────────────────────────────────────────────
+
+model TeacherProfile {
+  id           Int     @id @default(autoincrement())
+  userId       Int     @unique @map("user_id")
+  hourlyRate   Decimal @map("hourly_rate") @db.Decimal(10, 2)
+  bio          String?
+  ratingAvg    Decimal @default(0) @map("rating_avg") @db.Decimal(3, 2)
+  totalReviews Int     @default(0) @map("total_reviews")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("teacher_profiles")
+}

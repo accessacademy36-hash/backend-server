@@ -1,0 +1,26 @@
+// ─── PARTICIPATION DOMAIN ────────────────────────────────────────────────────
+
+enum AttendanceStatus {
+  scheduled
+  attended
+  missed
+  delayed
+}
+
+model LectureAttendance {
+  id             Int              @id @default(autoincrement())
+  lectureId      Int              @map("lecture_id")
+  studentId      Int              @map("student_id")
+  subscriptionId Int?             @map("subscription_id") // null for demo sessions
+  status         AttendanceStatus @default(scheduled)
+  joinedAt       DateTime?        @map("joined_at")
+  leftAt         DateTime?        @map("left_at")
+
+  // Relations
+  lecture      Lecture       @relation(fields: [lectureId], references: [id])
+  student      User          @relation(fields: [studentId], references: [id])
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@unique([lectureId, studentId])
+  @@map("lecture_attendances")
+}

@@ -1,0 +1,32 @@
+// ─── USER DOMAIN ─────────────────────────────────────────────────────────────
+
+enum Role {
+  admin
+  student
+  teacher
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String   @unique
+  country   String
+  timezone  String
+  role      Role
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  teacherProfile      TeacherProfile?
+  studentProfile      StudentProfile?
+  paymentRequests     PaymentRequest[]     @relation("StudentPayments")
+  reviewedPayments    PaymentRequest[]     @relation("ReviewedPayments")
+  subscriptions       Subscription[]
+  bookingRequests     BookingRequest[]
+  teacherAvailability TeacherAvailability[]
+  teacherUnavailable  TeacherUnavailable[]
+  teachingAssignments TeachingAssignment[]
+  lectureAttendances  LectureAttendance[]
+  reviews             Review[]
+
+  @@map("users")
+}

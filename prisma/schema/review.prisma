@@ -1,0 +1,23 @@
+// ─── REVIEW DOMAIN ───────────────────────────────────────────────────────────
+
+enum ReviewTargetType {
+  teacher
+  platform
+}
+
+model Review {
+  id             Int              @id @default(autoincrement())
+  reviewerId     Int              @map("reviewer_id")
+  targetType     ReviewTargetType @map("target_type")
+  targetId       Int?             @map("target_id") // FK to User if targetType = teacher
+  subscriptionId Int?             @map("subscription_id")
+  rating         Int              // 1–5
+  comment        String?
+  createdAt      DateTime         @default(now()) @map("created_at")
+
+  // Relations
+  reviewer     User          @relation(fields: [reviewerId], references: [id])
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  @@map("reviews")
+}

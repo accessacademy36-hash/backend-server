@@ -1,0 +1,12 @@
+// ─── ACADEMIC DOMAIN ─────────────────────────────────────────────────────────
+
+model Grade {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  // Relations
+  studentProfiles     StudentProfile[]
+  teachingAssignments TeachingAssignment[]
+
+  @@map("grades")
+}

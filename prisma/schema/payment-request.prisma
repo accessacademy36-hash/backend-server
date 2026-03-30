@@ -1,0 +1,28 @@
+// ─── PAYMENT DOMAIN ──────────────────────────────────────────────────────────
+
+enum PaymentStatus {
+  pending
+  approved
+  rejected
+}
+
+model PaymentRequest {
+  id                   Int           @id @default(autoincrement())
+  studentId            Int           @map("student_id")
+  teachingAssignmentId Int           @map("teaching_assignment_id")
+  amount               Decimal       @db.Decimal(10, 2)
+  currency             String        @default("USD")
+  screenshotUrl        String?       @map("screenshot_url")
+  status               PaymentStatus @default(pending)
+  createdAt            DateTime      @default(now()) @map("created_at")
+  reviewedBy           Int?          @map("reviewed_by")
+  reviewedAt           DateTime?     @map("reviewed_at")
+
+  // Relations
+  student            User               @relation("StudentPayments", fields: [studentId], references: [id])
+  teachingAssignment TeachingAssignment @relation(fields: [teachingAssignmentId], references: [id])
+  reviewer           User?              @relation("ReviewedPayments", fields: [reviewedBy], references: [id])
+  subscription       Subscription?
+
+  @@map("payment_requests")
+}

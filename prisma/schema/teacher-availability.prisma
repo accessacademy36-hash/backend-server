@@ -1,0 +1,15 @@
+// ─── AVAILABILITY DOMAIN ─────────────────────────────────────────────────────
+
+model TeacherAvailability {
+  id           Int     @id @default(autoincrement())
+  teacherId    Int     @map("teacher_id")
+  dayOfWeek    Int     @map("day_of_week") // 0 = Sunday, 6 = Saturday
+  startTimeUtc String  @map("start_time_utc") // stored as "HH:MM"
+  endTimeUtc   String  @map("end_time_utc")   // stored as "HH:MM"
+  isRecurring  Boolean @default(true) @map("is_recurring")
+
+  // Relations
+  teacher User @relation(fields: [teacherId], references: [id])
+
+  @@map("teacher_availabilities")
+}

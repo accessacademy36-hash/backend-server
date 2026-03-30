@@ -1,0 +1,33 @@
+// ─── SUBSCRIPTION DOMAIN ─────────────────────────────────────────────────────
+
+enum SubscriptionStatus {
+  active
+  completed
+  expired
+  canceled
+}
+
+model Subscription {
+  id                   Int                @id @default(autoincrement())
+  studentId            Int                @map("student_id")
+  teachingAssignmentId Int                @map("teaching_assignment_id")
+  paymentRequestId     Int?               @unique @map("payment_request_id")
+  totalSessions        Int                @map("total_sessions")
+  sessionsUsed         Int                @default(0) @map("sessions_used")
+  studentDelayCount    Int                @default(0) @map("student_delay_count")
+  teacherDelayCount    Int                @default(0) @map("teacher_delay_count")
+  startDate            DateTime?          @map("start_date")
+  endDate              DateTime?          @map("end_date")
+  status               SubscriptionStatus @default(active)
+
+  // Relations
+  student            User               @relation(fields: [studentId], references: [id])
+  teachingAssignment TeachingAssignment @relation(fields: [teachingAssignmentId], references: [id])
+  paymentRequest     PaymentRequest?    @relation(fields: [paymentRequestId], references: [id])
+
+  bookingRequests    BookingRequest[]
+  lectureAttendances LectureAttendance[]
+  reviews            Review[]
+
+  @@map("subscriptions")
+}

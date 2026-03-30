@@ -1,0 +1,13 @@
+model Course {
+  id                Int     @id @default(autoincrement())
+  name              String
+  basePrice         Decimal @map("base_price") @db.Decimal(10, 2)
+  numberOfLessons   Int     @map("number_of_lessons")
+  isGroupSession    Boolean @default(false) @map("is_group_session")
+  maxStudentsDefault Int    @default(1) @map("max_students_default")
+
+  // Relations
+  teachingAssignments TeachingAssignment[]
+
+  @@map("courses")
+}
