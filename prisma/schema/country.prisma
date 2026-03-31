@@ -1,0 +1,12 @@
+// ─── COUNTRY DOMAIN ──────────────────────────────────────────────────────────
+
+model Country {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  // Relations
+  users       User[]
+  curriculums Curriculum[]
+
+  @@map("countries")
+}

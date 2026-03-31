@@ -1,10 +1,12 @@
 // ─── ACADEMIC DOMAIN ─────────────────────────────────────────────────────────
 
 model Grade {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id           Int    @id @default(autoincrement())
+  name         String
+  curriculumId Int    @map("curriculum_id")
 
   // Relations
+  curriculum          Curriculum           @relation(fields: [curriculumId], references: [id])
   studentProfiles     StudentProfile[]
   teachingAssignments TeachingAssignment[]
 

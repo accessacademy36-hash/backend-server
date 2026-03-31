@@ -20,10 +20,21 @@ export const gradeController = {
     }
   },
 
+  getByCurriculumId: async (req: Request, res: Response) => {
+    try {
+      res.json(await gradeService.getByCurriculumId(Number(req.params.curriculumId)));
+    } catch {
+      res.status(500).json({ error: "Failed to fetch grades for curriculum" });
+    }
+  },
+
   create: async (req: Request, res: Response) => {
     try {
       res.status(201).json(await gradeService.create(req.body));
-    } catch {
+    } catch (error: any) {
+      if (error.code === "P2003") {
+        return res.status(404).json({ error: "Curriculum not found" });
+      }
       res.status(500).json({ error: "Failed to create grade" });
     }
   },
@@ -31,7 +42,10 @@ export const gradeController = {
   update: async (req: Request, res: Response) => {
     try {
       res.json(await gradeService.update(Number(req.params.id), req.body));
-    } catch {
+    } catch (error: any) {
+      if (error.code === "P2025") {
+        return res.status(404).json({ error: "Grade not found" });
+      }
       res.status(500).json({ error: "Failed to update grade" });
     }
   },
@@ -40,7 +54,10 @@ export const gradeController = {
     try {
       await gradeService.delete(Number(req.params.id));
       res.json({ message: "Grade deleted successfully" });
-    } catch {
+    } catch (error: any) {
+      if (error.code === "P2025") {
+        return res.status(404).json({ error: "Grade not found" });
+      }
       res.status(500).json({ error: "Failed to delete grade" });
     }
   },
