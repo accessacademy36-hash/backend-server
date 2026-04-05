@@ -1,0 +1,14 @@
+// ─── LECTURE HOMEWORK DOMAIN ─────────────────────────────────────────────────
+
+model LectureHomework {
+  id          Int      @id @default(autoincrement())
+  lectureId   Int      @map("lecture_id")
+  title       String
+  fileUrl     String   @map("file_url")
+  uploadedAt  DateTime @default(now()) @map("uploaded_at")
+
+  // Relations
+  lecture Lecture @relation(fields: [lectureId], references: [id])
+
+  @@map("lecture_homeworks")
+}

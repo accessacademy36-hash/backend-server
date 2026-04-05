@@ -14,10 +14,15 @@ model Lecture {
   maxStudents          Int           @default(1) @map("max_students")
   status               LectureStatus @default(scheduled)
   isDemo               Boolean       @default(false) @map("is_demo")
+  zoomMeetingId        String?       @map("zoom_meeting_id")
+  meetingLink          String?       @map("meeting_link")
 
   // Relations
   teachingAssignment TeachingAssignment  @relation(fields: [teachingAssignmentId], references: [id])
   attendances        LectureAttendance[]
+  delays             LectureDelay[]
+  homeworks          LectureHomework[]
+  materials          LectureMaterial[]
 
   @@map("lectures")
 }

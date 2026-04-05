@@ -27,6 +27,7 @@ model User {
   teacherAvailability   TeacherAvailability[]
   teacherUnavailable    TeacherUnavailable[]
   teachingAssignments   TeachingAssignment[]
+  lectureDelaysApproved LectureDelay[]       @relation("ApprovedDelays")
   lectureAttendances    LectureAttendance[]
   reviews               Review[]
 

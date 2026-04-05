@@ -27,6 +27,7 @@ model Subscription {
 
   bookingRequests    BookingRequest[]
   lectureAttendances LectureAttendance[]
+  lectureDelays      LectureDelay[]
   reviews            Review[]
 
   @@map("subscriptions")

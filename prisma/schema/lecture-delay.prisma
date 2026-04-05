@@ -1,0 +1,24 @@
+// ─── DELAY DOMAIN ────────────────────────────────────────────────────────────
+
+enum DelayRequestedBy {
+  student
+  teacher
+}
+
+model LectureDelay {
+  id               Int              @id @default(autoincrement())
+  lectureId        Int              @map("lecture_id")
+  subscriptionId   Int              @map("subscription_id")
+  requestedBy      DelayRequestedBy @map("requested_by")
+  approvedBy       Int?             @map("approved_by")
+  delayCountBefore Int              @map("delay_count_before")
+  penaltyApplied   Boolean          @default(false) @map("penalty_applied")
+  createdAt        DateTime         @default(now()) @map("created_at")
+
+  // Relations
+  lecture      Lecture      @relation(fields: [lectureId], references: [id])
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  approver     User?        @relation("ApprovedDelays", fields: [approvedBy], references: [id])
+
+  @@map("lecture_delays")
+}

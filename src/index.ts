@@ -17,6 +17,10 @@ import teacherUnavailableRoutes from "./routes/teacher-unavailable.routes";
 import bookingRequestRoutes from "./routes/booking-request.routes";
 import lectureRoutes from "./routes/lecture.routes";
 import lectureAttendanceRoutes from "./routes/lecture-attendance.routes";
+import lectureDelayRoutes from "./routes/lecture-delay.routes";
+import lectureHomeworkRoutes from "./routes/lecture-homework.routes";
+import lectureMaterialRoutes from "./routes/lecture-material.routes";
+import calendarRoutes from "./routes/calender.routes";
 import reviewRoutes from "./routes/review.routes";
 
 export function registerRoutes(app: Express) {
@@ -37,5 +41,9 @@ export function registerRoutes(app: Express) {
   app.use("/api/booking-requests", bookingRequestRoutes);
   app.use("/api/lectures", lectureRoutes);
   app.use("/api/lecture-attendances", lectureAttendanceRoutes);
+  app.use("/api/lecture-delays", lectureDelayRoutes);
+  app.use("/api/lecture-homeworks", lectureHomeworkRoutes);
+  app.use("/api/lecture-materials", lectureMaterialRoutes);
+  app.use("/api/calendar", calendarRoutes);
   app.use("/api/reviews", reviewRoutes);
 }

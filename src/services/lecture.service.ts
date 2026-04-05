@@ -11,6 +11,50 @@ export const lectureService = {
       include: { teachingAssignment: true, attendances: true },
     }),
 
+  getTeacherDemoSessions: async (teacherId: number) => {
+    const demos = await prisma.lecture.findMany({
+      where: {
+        isDemo: true,
+        teachingAssignment: { teacherId },
+      },
+      include: {
+        teachingAssignment: {
+          include: {
+            course: true,
+            grade: true,
+          },
+        },
+        // Student who booked the demo
+        attendances: {
+          include: {
+            student: {
+              select: { id: true, name: true, phone: true },
+            },
+          },
+        },
+      },
+      orderBy: { startTime: "asc" },
+    });
+
+    return demos.map((lecture) => ({
+      lectureId: lecture.id,
+      startTime: lecture.startTime,
+      endTime: lecture.endTime,
+      status: lecture.status,
+      meetingLink: lecture.meetingLink ?? null,
+      courseName: lecture.teachingAssignment.course.name,
+      gradeName: lecture.teachingAssignment.grade.name,
+      student: lecture.attendances[0]
+        ? {
+          id: lecture.attendances[0].student.id,
+          name: lecture.attendances[0].student.name,
+          phone: lecture.attendances[0].student.phone,
+          attendanceStatus: lecture.attendances[0].status,
+        }
+        : null,
+    }));
+  },
+
   create: (data: {
     teachingAssignmentId: number;
     startTime: Date;

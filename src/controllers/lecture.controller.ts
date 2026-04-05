@@ -20,6 +20,17 @@ export const lectureController = {
     }
   },
 
+  // GET /api/calendar/teacher/demos
+    getTeacherDemoSessions: async (req: Request, res: Response) => {
+      try {
+        const teacherId = req.user!.userId;
+        const demos = await lectureService.getTeacherDemoSessions(teacherId);
+        res.json(demos);
+      } catch {
+        res.status(500).json({ error: "Failed to fetch demo sessions" });
+      }
+    },
+
   create: async (req: Request, res: Response) => {
     try {
       res.status(201).json(await lectureService.create(req.body));
